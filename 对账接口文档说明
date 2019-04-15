@@ -1,0 +1,29 @@
+##一、接口地址
+
+    接口地址: IP:PORT/voicebalance/ 
+        示例：127.0.0.1:8000/voiceBalance/
+        
+##二、请求方式
+  
+    请求方式：POST请求
+    
+##三、请求参数说明
+
+
+            参数名	            类型	          是否必须	         说明
+            
+输入参数	 hostname	          string	          是	            服务器名称
+	           ip	             string	           是	           服务器ip
+	        areaofjob	         string	           是	           机构领域
+	          code	           string	           是	           机构领域code
+	          path	           string	           否	           语音目录
+	      voiceaccount	        int	             是	           语音文件数
+	      indexaccount	        int	             是	           索引文件数
+	          year	           string	           是	            对账年份
+	          month	           string	           是	            对账月份
+            day	             string	           是	            对账日
+            
+            
+输出参数	
+      请求成功： {"code": 0, "data": "", "error": ""}
+      请求失败： {"code": 1, "data": "", "error": "The error message."}
