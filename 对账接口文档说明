@@ -12,7 +12,7 @@
 
             参数名	         类型	          是否必须	           说明
             
-输入参数	 hostname	   string             是	              服务器名称
+输入参数	 hostname	   string              是	   服务器名称
 	       ip             string	        是	        服务器ip
 	   areaofjob          string	        是	        机构领域
               code            string	        是	       机构领域code
