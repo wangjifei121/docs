@@ -10,18 +10,18 @@
 ##三、请求参数说明
 
 
-            参数名	            类型	          是否必须	         说明
+            参数名	            类型	          是否必须	           说明
             
-输入参数	 hostname	          string	          是	            服务器名称
-	           ip	             string	           是	           服务器ip
-	        areaofjob	         string	           是	           机构领域
-	          code	           string	           是	           机构领域code
-	          path	           string	           否	           语音目录
-	      voiceaccount	        int	             是	           语音文件数
-	      indexaccount	        int	             是	           索引文件数
-	          year	           string	           是	            对账年份
-	          month	           string	           是	            对账月份
-            day	             string	           是	            对账日
+输入参数	 hostname	   string            是	             服务器名称
+	       ip             string	        是	        服务器ip
+	   areaofjob          string	        是	        机构领域
+              code            string	        是	       机构领域code
+              path            string	        否	         语音目录
+          voiceaccount	       int              是	        语音文件数
+          indexaccount	       int              是	        索引文件数
+              year	      string	        是	         对账年份
+              month           string	        是	         对账月份
+              day             string	        是	         对账日
             
             
 输出参数	
