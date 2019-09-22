@@ -1,0 +1,388 @@
+#####ES简单的增删改查
+      # 1、创建一篇文档（有则修改，无则创建）
+      PUT test/doc/2
+      {
+        "name":"wangfei",
+        "age":27,
+        "desc":"热天还不让后人不认同"
+      }
+
+      PUT test/doc/1
+      {
+        "name":"wangjifei",
+        "age":27,
+        "desc":"萨芬我反胃为范围额"
+      }
+
+      PUT test/doc/3
+      {
+        "name":"wangyang",
+        "age":30,
+        "desc":"点在我心内的几首歌"
+      }
+
+# 2、查询指定索引信息
+      GET test
+
+# 3、 查询文档信息
+      GET test/doc/1
+      GET test/doc/2
+
+# 4、查询对应索引下所有数据
+      GET test/doc/_search
+
+# 5、删除指定文档
+      DELETE test/doc/3
+
+# 6、删除索引
+      DELETE test
+
+
+# 7、不正确的修改指定文档方式（PUT修改时，不指定的属性会自动覆盖，只保留指定的属性）
+      PUT test/doc/1
+      {
+        "name":"王计飞"
+      }
+
+# 7、正确的修改指定文档
+# 使用POST命令，在id后面跟_update，要修改的内容放到doc文档（属性）中
+      POST test/doc/1/_update
+      {
+        "doc":{
+          "desc":"生活就像 茫茫海上"
+        }
+      }
+
+
+##### ES查询的两种方式方式
+# 1、查询字符串搜索
+      GET test/doc/_search?q=name:wangfei
+
+
+# 2、结构化查询(单字段查询,不能多字段组合查询)
+      GET test/doc/_search
+      {
+        "query":{
+          "match":{
+            "name":"wang"
+          }
+        }
+      }
+
+##### match系列之操作
+# 1、match系列之match_all (查询全部)
+      GET test/doc/_search
+      {
+        "query":{
+          "match_all": {
+          }
+        }
+      }
+# 2、match系列之match_phrase（短语查询）
+
+      # 准备数据
+      PUT test1/doc/1
+      {
+        "title": "中国是世界上人口最多的国家"
+      }
+      PUT test1/doc/2
+      {
+        "title": "美国是世界上军事实力最强大的国家"
+      }
+      PUT test1/doc/3
+      {
+        "title": "北京是中国的首都"
+      }
+
+      GET test1/doc/_search
+      {
+        "query":{
+          "match":{
+            "title":"中国"
+          }
+        }
+      }
+# 虽然如期的返回了中国的文档。但是却把和美国的文档也返回了，这并不是我们想要的。是怎么回事呢？因为这是elasticsearch在内部对文档做分词的时候，对于中文来说，就是一个字一个字分的，所以，我们搜中国，中和国都符合条件，返回，而美国的国也符合。而我们认为中国是个短语，是一个有具体含义的词。所以elasticsearch在处理中文分词方面比较弱势。后面会讲针对中文的插件。但目前我们还有办法解决，那就是使用短语查询 用match_phrase
+
+      GET test1/doc/_search
+      {
+        "query":{
+          "match_phrase": {
+            "title": "中国"
+          }
+        }
+      }
+
+# 我们搜索中国和世界这两个指定词组时，但又不清楚两个词组之间有多少别的词间隔。那么在搜的时候就要留有一些余地。这时就要用到了slop了。相当于正则中的中国.*?世界。这个间隔默认为0，
+      GET test1/doc/_search
+      {
+        "query":{
+          "match_phrase": {
+            "title": {
+              "query": "中国世界",
+              "slop":2
+            }
+          }
+        }
+      }
+
+# 3、match系列之match_phrase_prefix（最左前缀查询）智能搜索--以什么开头
+
+
+      # 数据准备
+      PUT test2/doc/1
+      {
+        "title": "prefix1",
+        "desc": "beautiful girl you are beautiful so"
+      }
+
+      PUT test2/doc/2
+      {
+        "title": "beautiful",
+        "desc": "I like basking on the beach"
+      }
+
+      # 搜索英文开头
+      GET test2/doc/_search
+      {
+        "query": {
+          "match_phrase_prefix": {
+            "desc": "bea"
+          }
+        }
+      }
+
+      # max_expansions 参数理解 前缀查询会非常的影响性能，要对结果集进行限制，就加上这个参数。
+
+      GET test2/doc/_search
+      {
+        "query": {
+          "match_phrase_prefix": {
+            "desc": {
+              "query": "bea",
+              "max_expansions":1
+            }
+          }
+        }
+      }
+
+# 4、match系列之multi_match（多字段查询）  （要在多个字段中查询同一个关键字）  除此之外，mulit_match甚至可以当做match_phrase和match_phrase_prefix使用，只需要指定type类型即可
+
+      GET test2/doc/_search
+      {
+        "query": {
+          "multi_match": {
+            "query": "beautiful",
+            "fields": ["title","desc"]
+          }
+        }
+      }
+
+      # type:phrase (同短语查询)
+      GET test1/doc/_search
+      {
+        "query": {
+          "multi_match": {
+            "query": "中国",
+            "fields": ["title"],
+            "type": "phrase"
+          }
+        }
+      }
+
+      # type:phrase_prefix (同最左前缀查询)
+      GET test2/doc/_search
+      {
+        "query": {
+          "multi_match": {
+            "query": "bea",
+            "fields": ["desc"],
+            "type": "phrase_prefix"
+          }
+        }
+      }
+
+# match 查询相关总结
+
+      1、match：返回所有匹配的分词。
+      2、match_all：查询全部。
+      3、match_phrase：短语查询，在match的基础上进一步查询词组，可以指定slop分词间隔。
+      4、match_phrase_prefix：前缀查询，根据短语中最后一个词组做前缀匹配，可以应用于搜索提示，但注意和max_expanions搭配。其实默认是50.......
+      5、multi_match：多字段查询，使用相当的灵活，可以完成match_phrase和match_phrase_prefix的工作。
+
+
+
+#### ES的排序查询 （注意：排序字段只能是数字和日期类型的字段，其他的都不行）
+
+      # name字段排序报错
+      GET test/doc/_search
+      {
+        "query": {
+          "match_all": {}
+        },
+        "sort": [
+          {
+            "name": {
+              "order": "asc"
+            }
+          }
+        ]
+      }
+
+      # 倒叙
+      GET test/doc/_search
+      {
+        "query": {
+          "match_all": {}
+        },
+        "sort": [
+          {
+            "age": {
+              "order": "desc"
+            }
+          }
+        ]
+      }
+      # 升序
+      GET test/doc/_search
+      {
+        "query": {
+          "match_all": {}
+        },
+        "sort": [
+          {
+            "age": {
+              "order": "asc"
+            }
+          }
+        ]
+      }
+
+##### ES的分页查询(from：从哪开始查  size：返回几条结果)
+
+      GET test/doc/_search
+      {
+        "query": {
+          "match_phrase_prefix": {
+            "name": "wang"
+          }
+        },
+        "from": 0,
+        "size": 1
+      }
+
+##### ES的bool查询(must、should)
+
+### must   (must字段对应的是个列表，也就是说可以有多个并列的查询条件，一个文档满足各个子条件后才最终返回)
+      # 单条件查询
+      GET test/doc/_search
+      {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                "name": "wangfei"
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      # 多条件组合查询
+      GET test/doc/_search
+      {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "name": "wanggfei"
+                }
+              },{
+                "match": {
+                  "age": 25
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      #### should (只要符合其中一个条件就返回)
+      GET test/doc/_search
+      {
+        "query": {
+          "bool": {
+            "should": [
+              {
+                "match": {
+                "name": "wangjifei"
+              }
+              },{
+                "match": {
+                  "age": 27
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      #### must_not 
+
+      GET test/doc/_search
+      {
+        "query": {
+          "bool": {
+            "must_not": [
+              {
+                "match": {
+                  "name": "wangjifei"
+                }
+              },{
+                "match": {
+                  "age": 27
+                }
+              }
+            ]
+          }
+        }
+      }
+
+
+      #### filter(条件过滤查询，过滤条件的范围用range表示gt表示大于、lt表示小于、gte表示大于等于、lte表示小于等于)
+      GET test/doc/_search
+      {
+        "query": {
+          "bool": {
+            "must": [
+              {
+                "match": {
+                  "name": "wangjifei"
+                }
+              }
+            ],
+            "filter": {
+              "range": {
+                "age": {
+                  "gte": 10,
+                  "lt": 27
+                }
+              }
+            }
+          }
+        }
+      }
+
+##### bool查询总结
+      1、must：与关系，相当于关系型数据库中的and。
+      2、should：或关系，相当于关系型数据库中的or。
+      3、must_not：非关系，相当于关系型数据库中的not。
+      4、filter：过滤条件。
+      5、range：条件筛选范围。
+      6、gt：大于，相当于关系型数据库中的>。
+      7、gte：大于等于，相当于关系型数据库中的>=。
+      8、lt：小于，相当于关系型数据库中的<。
+      9、lte：小于等于，相当于关系型数据库中的<=。
