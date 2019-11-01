@@ -1,11 +1,11 @@
 # 前言---ES的数据组织类比
 
-| Relational DB  | Elasticsearch |
-| --- | :--- | :---: | ---: |
-| 数据库（database） | 索引（indices）|
-| 表（tables）	 | 	types |
-| 行（rows）|	documents |
-|字段（columns）| fields|
+| Relational DB| Elasticsearch|
+|:-------------:| :-----:|
+|  数据库（database） |  索引（indices） |
+| 表（tables） |	types|
+|行（rows）|documents |
+|字段（columns）|fields|
 
 #一、 ES简单的增删改查
 ####1、创建一篇文档（有则修改，无则创建)
