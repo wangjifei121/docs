@@ -1,4 +1,5 @@
 # 前言---ES的数据组织类比
+
 | Relational DB  | Elasticsearch |
 | --- | :--- | :---: | ---: |
 | 数据库（database） | 索引（indices）|
