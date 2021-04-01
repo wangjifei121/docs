@@ -1,0 +1,21 @@
+进入19-58000
+1.  cd  /mnt/mfs/24_18088/cwtap_version
+2. rm -rf cwtap
+3. svn co 'http://172.31.117.4/svn/CWTAP' cwtap
+4. cd /mnt/mfs/24_18088/cwtap_version/cwtap/cwtap   # 进入配置目录
+5. mv settings.py  settings.py.bak  # 移动settings文件
+6. cd /mnt/mfs/24_18088/cwtap_version/cwtap/cwtap/core
+7. mv  es_models.py es_models.py.bak  # 备份es文件
+8. cd /mnt/mfs/24_18088/cwtap_version/cwtap/static/jsPages  # 修改js目录路径
+9. vim common.js   将第4行改为“/mnt/mfs/24_18088/nlp_templates/”
+
+
+进入24_18000
+1. cd /mnt/mfs/24_18088/cwtap_version  
+2. \cp -r cwtap/* /opt/CWTAP/  # 更新
+3. cd /opt/CWTAP/cwtap  
+4. diff settings.py settings.py.bak   # 对比settings文件，手动更改变动的配置
+5. cd /opt/CWTAP/cwtap/core
+6. diff es_models.py es_models.py.bak  # 对比es_models 文件，一般情况下是不用改动
+7. sh sbin/cwtap.sh init mysql  # makemigrations 和 迁移
+8. 重启服务就行
