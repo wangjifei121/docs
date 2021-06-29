@@ -1,0 +1,7 @@
+1、拉取svn最新CWTAP
+2、检查CWTAP配置
+   settings.py
+   static/jsPages/common.js
+   sbin/init.sh
+3、将CWTAP、lib等源码包及依赖打包tar.gz
+4、编写dockerfile
