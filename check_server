@@ -32,3 +32,18 @@ redis - 客户端检查
   redis启动方式：
     cd /usr/local/redis/bin
     nohup ./redis-server &
+
+master - 启动服务步骤
+  - 修改配置 - 执行 sh sbin/init_ip.sh 
+  - 检查配置修改情况 
+    cwtap/settings.py
+    webroot/WEB-INF/classes/common.properties
+  - 创建cwtap/cenlp mysql数据库
+  - 执行命令：sh sbin/cwtap.sh init mysql - 初始化数据库
+  - 执行命令：sh sbin/cwtap.sh init fixtures - 加载fixtures文件数据
+  - 启动nginx
+      - cd /usr/local/nginx
+      - sbin/nginx
+  - 启动java服务：sh sbin/cwtap.sh start tomcat
+  - 启动项目：sh sbin/cwtap.sh start python
+  - 启动项目：sh sbin/cwtap.sh start daphne
