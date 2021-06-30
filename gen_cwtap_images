@@ -5,7 +5,7 @@
    static/jsPages/common.js
    sbin/init.sh
 3、将CWTAP、lib等源码包及依赖打包tar.gz
-4、编写dockerfile
+4、编写Dockerfile
    eg:nlp1.9
    ```
       #! /bin/bash
