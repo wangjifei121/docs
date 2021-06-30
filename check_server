@@ -1,27 +1,32 @@
-mysql - 客户端尝试连接
-  mysql官方镜像自管理
+NLP服务container启动后需要检查服务是否正常
+
+一、mysql - mysql官方镜像自管理
+    1、客户端连接测试是否启动成功
+    2、telnet ip port 测试
   
-es - http://10.0.3.25:25601/app/kibana  http://10.0.3.25:29200/
-  es采取supervisor管理：/etc/supervisor/supervisord.conf
-    ```
-    supervisord -c /etc/supervisor/supervisord.conf此时默认开启了所有服务
-    supervisorctl status 查看进程运行状态
-    supervisorctl start 进程名 启动进程
-    supervisorctl stop 进程名 关闭进程
-    supervisorctl restart 进程名 重启进程
-    supervisorctl update 重新载入配置文件
-    supervisorctl shutdown 关闭supervisord
-    supervisorctl clear 进程名 清空进程日志
-    supervisorctl 进入到交互模式下。使用help查看所有命令。
-    start stop restart + all 表示启动，关闭，重启所有进程。
-    
-    关闭服务：
-      supervisorctl stop all先关闭supervisor服务
-      之后再关闭supervisord服务 kill -9 pid
-    ```
-    ```
-    手动启动es时需要先切换用户
-      su - elsearch
+二、es - es镜像现有维护自启动和非自启动两个版本
+  1、版本判断
+      在es容器/etc/目录下存在supervisord.conf的版本为自启版本，否则为非自启版本
+  2、自启动版本supervisord基本操作命令
+      ```
+        supervisord -c /etc/supervisor/supervisord.conf此时默认开启了所有服务
+        supervisorctl status 查看进程运行状态
+        supervisorctl start 进程名 启动进程
+        supervisorctl stop 进程名 关闭进程
+        supervisorctl restart 进程名 重启进程
+        supervisorctl update 重新载入配置文件
+        supervisorctl shutdown 关闭supervisord
+        supervisorctl clear 进程名 清空进程日志
+        supervisorctl 进入到交互模式下。使用help查看所有命令。
+        start stop restart + all 表示启动，关闭，重启所有进程。
+
+        关闭服务：
+          supervisorctl stop all先关闭supervisor服务
+          之后再关闭supervisord服务 kill -9 pid
+      ```
+  3、手动启动版本启动命令
+      ```
+      手动启动es时需要先切换用户 su - elsearch
       启动elasticsearch
         cd /usr/local/elasticsearch-6.5.4/bin
         ./elasticsearch -d
@@ -30,38 +35,55 @@ es - http://10.0.3.25:25601/app/kibana  http://10.0.3.25:29200/
         cd /usr/local/kibana-6.5.4-linux-x86_64/bin
         nohup ./kibana &
         lsof -i:5601
-    ```
-
+      ```
+  4、浏览器访问检查服务启动情况
+      http://10.0.3.25:29200/
+      http://10.0.3.25:25601/app/kibana 
       
-bert - telnet 10.0.3.25 25555
-    启动bert方式：
-      1、进入bert容器 
-      2、cd /opt/bert/sbin 
-      3、nohup sh sstart.sh &
+三、bert - 需手动启动服务
+    1、bert启动方式：
+      进入bert容器 
+      cd /opt/bert/sbin 
+      nohup sh sstart.sh &
+    2、检查bert服务启动情况
+      telnet 10.0.3.25 25555
 
 
-redis - 客户端检查
-  redis启动方式：
+四、redis - 客户端检查
+  1、redis启动方式：
     cd /usr/local/redis/bin
     nohup ./redis-server &
 
-master - 启动服务步骤
-  - 修改配置 - 执行 sh sbin/init_ip.sh 
-  - 检查配置修改情况 
-    cwtap/settings.py
-    webroot/WEB-INF/classes/common.properties
-  - 创建cwtap/cenlp mysql数据库
-  - 执行命令：sh sbin/cwtap.sh init mysql - 初始化数据库
-  - 执行命令：sh sbin/cwtap.sh init fixtures - 加载fixtures文件数据
-  - 执行 /opt/CWTAP/users/fixtures/create_json.py 文件 生成最新的菜单数据
-  - 执行命令： python manage.py loaddata users/fixtures/00.initialize_user_data.json
-  - 执行命令：sh sbin/cwtap.sh init es 
-  - 启动nginx
-      - cd /usr/local/nginx
-      - sbin/nginx
-  - 启动java服务：sh sbin/cwtap.sh start tomcat
-  - 启动项目：sh sbin/cwtap.sh start python
-  - 启动项目：sh sbin/cwtap.sh start daphne
-  - 启动celery：sh sbin/cwtap.sh start celery
+五、master - NLP主服务
+  1、NLP服务启动操作步骤
+    - cd /opt/CWTAP
+    - 修改配置 
+        - 先检查sbin/init_ip.sh脚本配置情况，做ip:port的对应修改
+        - sh sbin/init_ip.sh 
+    - 检查配置修改情况 
+        cwtap/settings.py
+        webroot/WEB-INF/classes/common.properties
+    - 创建cwtap/cenlp mysql数据库
+    - 初始化数据库
+        - sh sbin/cwtap.sh init mysql 
+    - 生成最新的菜单数据(需根据实际菜单数据情况而定）
+        - python users/fixtures/create_json.py
+        - 将生成的00.initialize_user_data.20210630173812.json文件修改为00.initialize_user_data.json文件
+    - 加载fixtures文件数据
+         - sh sbin/cwtap.sh init fixtures
+    - 构建es索引
+        - sh sbin/cwtap.sh init es 
+    - 启动nginx
+        - cd /usr/local/nginx
+        - sbin/nginx
+    - 启动java服务
+        - sh sbin/cwtap.sh start tomcat
+    - 启动Django项目
+        - sh sbin/cwtap.sh start python
+    - 启动websocket服务
+        - sh sbin/cwtap.sh start daphne
+    - 启动celery服务
+        - sh sbin/cwtap.sh start celery
   
-本次镜像缺少logstash
+问题记录：
+  1、elk镜像中缺少logstash配置
