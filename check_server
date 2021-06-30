@@ -26,3 +26,9 @@ bert - telnet 10.0.3.25 25555
       1、进入bert容器 
       2、cd /opt/bert/sbin 
       3、nohup sh sstart.sh &
+
+
+redis - 客户端检查
+  redis启动方式：
+    cd /usr/local/redis/bin
+    nohup ./redis-server &
