@@ -50,4 +50,5 @@ master - 启动服务步骤
   - 启动java服务：sh sbin/cwtap.sh start tomcat
   - 启动项目：sh sbin/cwtap.sh start python
   - 启动项目：sh sbin/cwtap.sh start daphne
+  - 启动celery：sh sbin/cwtap.sh start celery
   
