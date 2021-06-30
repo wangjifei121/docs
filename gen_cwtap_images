@@ -66,3 +66,5 @@
    ```
   6、保存docker image 到本地磁盘：
       docker save -o baseimage_cwtap.v1.9.0.tar.gz baseimage/cwtap:1.9.0
+  7、加载docker image
+      docker load -i baseimage_cwtap.v1.9.0.tar.gz
