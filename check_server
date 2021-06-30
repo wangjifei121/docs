@@ -52,3 +52,4 @@ master - 启动服务步骤
   - 启动项目：sh sbin/cwtap.sh start daphne
   - 启动celery：sh sbin/cwtap.sh start celery
   
+本次镜像缺少logstash
