@@ -19,6 +19,18 @@ es - http://10.0.3.25:25601/app/kibana  http://10.0.3.25:29200/
       supervisorctl stop all先关闭supervisor服务
       之后再关闭supervisord服务 kill -9 pid
     ```
+    ```
+    手动启动es时需要先切换用户
+      su - elsearch
+      启动elasticsearch
+        cd /usr/local/elasticsearch-6.5.4/bin
+        ./elasticsearch -d
+        ps -ef|grep elasticsearch
+      启动kinaba
+        cd /usr/local/kibana-6.5.4-linux-x86_64/bin
+        nohup ./kibana &
+        lsof -i:5601
+    ```
 
       
 bert - telnet 10.0.3.25 25555
