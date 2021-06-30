@@ -1,0 +1,12 @@
+mysql - 客户端尝试连接
+  mysql启动命令
+  
+es - http://10.0.3.25:25601/app/kibana  http://10.0.3.25:29200/
+  es采取supervisordctl管理：/etc/supervisord.conf
+      supervisorctl status
+      
+bert - telnet 10.0.3.25 25555
+    启动bert方式：
+      1、进入bert容器 
+      2、cd /opt/bert/sbin 
+      3、nohup sh sstart.sh &
