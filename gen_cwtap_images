@@ -16,11 +16,11 @@
 
       # 镜像由来
       FROM baseimage/cwtap:1.8.1
-      MAINTAINER by xiongqiang wangjifei@cewell.com.cn
+      MAINTAINER by wangjifei@cewell.com.cn
 
       # 更新项目代码
       RUN rm -rf /opt/CWTAP
-      ADD CWTAP.20210629.tar.gz /opt/
+      ADD CWTAP.20210701.tar.gz /opt/
       RUN rm -rf /opt/hanlp_datas
       ADD hanlp_datas.20210629.tar.gz /opt/
       RUN rm -rf /root/.venvs/cwtap/lib
