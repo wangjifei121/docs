@@ -1,0 +1,17 @@
+注：外网映射端口说明：
+  前台java：114.113.112.76:7064 - 30009
+  后台python：114.113.112.76:7065 - 30008
+    
+
+1、在rancher中将master的端口做对应修改
+    8000改成30008
+    8088改成30009
+2、修改cwtap/settings.py 配置
+    PYTHON_BACKEND_URL = 'http://114.113.112.76:7065'
+    JAVA_BACKEND_URL = 'http://114.113.112.76:7064'
+3、修改webroot/WEB-INF/classes/common.properties 的配置
+    全局修改为  114.113.112.76:7065
+4、修改webroot/js/pages/common.js 的配置
+    var interface_url = 'http://114.113.112.76:7065/'
+    var backend_url = 'http://114.113.112.76:7065'
+5、重启服务
