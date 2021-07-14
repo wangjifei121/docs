@@ -84,9 +84,15 @@ NLP服务container启动后需要检查服务是否正常
         - sh sbin/cwtap.sh start daphne
     - 启动celery服务
         - sh sbin/cwtap.sh start celery
+    - 启动logstash（注意：需要将logstash复制一份来启动两个服务)
+        - nohup logstash-5.5.1/bin/logstash -f input_output_test.conf &
+        - nohup logstash-5.5.1/bin/logstash -f hot-degree.conf &
   
 问题记录：以下问题在新部署的环境中可能会存在（智汇核1.9版本）
-  - elk镜像中缺少logstash配置
+  - elk镜像中缺少logstash配置（已修复）
   - 检查master服务中是否有node.js环境
+    * 可能存在的问题是对话中存在js代码执行时报错，缺少node.js环境
   - 检查master中/mnt/mfs/nlp_templates/目录是否存在
+    * 可能存在上传模版下载失败的问题，缺少nlp_templates目录
   - 检查cwtap/core/es_models.py 中HotWordsTaskReport类是否正常
+    * 热词分析任务写入es索引时报错，原因是es_models.py中热词报告类异常
