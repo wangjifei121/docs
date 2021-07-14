@@ -86,7 +86,7 @@ NLP服务container启动后需要检查服务是否正常
         - sh sbin/cwtap.sh start celery
   2、检查master服务
     - 检查master服务中是否有node.js环境
-    - 检查master中/mnt/mfs/nlp_template/目录是否存在
+    - 检查master中/mnt/mfs/nlp_templates/目录是否存在
   
 问题记录：
   1、elk镜像中缺少logstash配置
