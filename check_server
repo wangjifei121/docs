@@ -84,6 +84,7 @@ NLP服务container启动后需要检查服务是否正常
         - sh sbin/cwtap.sh start daphne
     - 启动celery服务
         - sh sbin/cwtap.sh start celery
+  2、检查master服务中是否有node.js环境
   
 问题记录：
   1、elk镜像中缺少logstash配置
