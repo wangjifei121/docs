@@ -98,5 +98,4 @@ NLP服务container启动后需要检查服务是否正常
     * 热词分析任务写入es索引时报错，原因是es_models.py中热词报告类异常
   - 检查cwtap/core/es_models.py 中TextClusterTaskReport类中coupus字段是否是Text类型
     * 文本聚类任务执行时报错，原因是coupus字段字符长度超限，keyword的最大字符长度为32766个UTF-8字符，而text没有限制
-
-      ```
+  - 检查平台/cwtap/schedule/定时任务是否启动
