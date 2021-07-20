@@ -27,3 +27,8 @@
       --input=http://es:9200/keyword \
       --output=keyword.json \
       --searchBody '{"query":{"term":{"keywordbase": "14"}}}'
+      
+三、使用elasticdump导入数据
+    elasticdump \
+      --input=/mnt/mfs/金融领域业务词.json \
+      --output=http://es:9200/keyword
