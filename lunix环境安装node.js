@@ -16,5 +16,5 @@ v12.19.0
 
 解压文件的 bin 目录底下包含了 node、npm 等命令，我们可以使用 ln 命令来设置软连接：
 
-ln -s /usr/local/node-v12.19.0-linux-x64.tar.xz/bin/npm   /usr/bin/ 
-ln -s /usr/local/node-v12.19.0-linux-x64.tar.xz/bin/node   /usr/bin/
+ln -s /usr/local/node-v12.19.0-linux-x64/bin/npm   /usr/bin/ 
+ln -s /usr/local/node-v12.19.0-linux-x64/bin/node   /usr/bin/
