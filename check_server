@@ -99,4 +99,11 @@ NLP服务container启动后需要检查服务是否正常
   - 检查cwtap/core/es_models.py 中TextClusterTaskReport类中coupus字段是否是Text类型
     * 文本聚类任务执行时报错，原因是coupus字段字符长度超限，keyword的最大字符长度为32766个UTF-8字符，而text没有限制
   - 检查平台/cwtap/schedule/定时任务是否启动
+    * 可能存在对话知识、闲聊热度数据为空、资源生效时间、失效时间无效、对话session超时未关的现象
   - 检查词库fixtures文件中是否缺少纠错通用词库及创建租户时默认创建的词库是否包含纠错词库
+    * 可能存在纠错词库中没有通用词库、新创建的租户的纠错词库也没有通用词库的现象
+  - 检查 settings.py 文件中配置
+    ANNOTATE_MARKER_CODE_LIST = ["05070304", "05070305"]  # 标注员
+    ANNOTATE_CHECKER_CODE_LIST = ["05070306", "05070307"]  # 审核员
+    * 可能存在创建标注任务时没办法选择新创建的标注员和审核员
+    
