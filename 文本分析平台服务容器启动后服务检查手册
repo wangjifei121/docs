@@ -106,4 +106,6 @@ NLP服务container启动后需要检查服务是否正常
     ANNOTATE_MARKER_CODE_LIST = ["05070304", "05070305"]  # 标注员
     ANNOTATE_CHECKER_CODE_LIST = ["05070306", "05070307"]  # 审核员
     * 可能存在创建标注任务时没办法选择新创建的标注员和审核员
-    
+  - 检查模型监控界面是否存在自建的分类模型
+    * 新增了utiles.py 中 is_super_user方法
+    * 修改/algorithm_models/views.py中的model_permission方法
