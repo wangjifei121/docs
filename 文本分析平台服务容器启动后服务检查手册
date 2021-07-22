@@ -106,6 +106,76 @@ NLP服务container启动后需要检查服务是否正常
     ANNOTATE_MARKER_CODE_LIST = ["05070304", "05070305"]  # 标注员
     ANNOTATE_CHECKER_CODE_LIST = ["05070306", "05070307"]  # 审核员
     * 可能存在创建标注任务时没办法选择新创建的标注员和审核员
-  - 检查模型监控界面是否存在自建的分类模型
+  - 检查自建租户中模型监控界面是否存在自建的分类模型
+    * 各租户的admin的权限控制由之前的在settings中配置admin的id改为通过auth_user_id动态判断该id是否为admin账号
     * 新增了utiles.py 中 is_super_user方法
-    * 修改/algorithm_models/views.py中的model_permission方法
+    ```
+        @staticmethod
+        def is_super_user(auth_user_id):
+            """ 判断用户是否为admin用户 """
+            user = SearchOperation().get_model_search(User).filter(pk=auth_user_id).first()
+            if user and user.username.startswith('admin'):
+                # 第一步：校验用户名是否是admin开头
+                user_profile = SearchOperation().get_model_search(UserProfile).filter(user_id=auth_user_id).first()
+                if user_profile and (settings.TENANT_ADMIN_USERNAME % user_profile.tenant.id == user.username):
+                    # 第二步：校验用户名是否是 admin_租户id
+                    return True
+            return False
+    ```
+    * 修改/algorithm_models/views.py中的83行 model_permission方法为一下代码
+    ```
+        def model_permission(self, queryset, user_id):
+            """model 权限 仅针对文本分类标签"""
+            if not Utils.is_super_user(user_id):
+                instance = self.search_operation().get_model_search(UserProfile).get(user_id=user_id)
+                aoj_list = [item.id for item in instance.areaOfJob.all()]
+                label_queryset = self.search_operation().get_model_search(Label).filter(labelbase_id=1, level=1)
+                label_ids = [str(ins.id) for ins in label_queryset.exclude(area_of_job__in=aoj_list)]
+                queryset = queryset.exclude(sub_model__in=label_ids)
+            return queryset
+
+    ```
+    * 将utils.py文件中的1737行 permission_filter方法修改为一下
+    ```
+        @staticmethod
+        def permission_filter(request, queryset):
+            """后端通过用户的机构领域权限过滤数据数据"""
+            request_user = request.user
+            tenant_id = Utils.get_tenant_id_by_request(request)
+            if tenant_id:
+                if not Utils.is_super_user(request_user.id):
+                    instance = SearchOperation().get_model_search(
+                        UserProfile).get(user=request_user)
+                    aoj_list = [item.id for item in instance.areaOfJob.all()]
+                    model_name = Utils.get_model_name_by_queryset(queryset)
+                    # TODO 特殊处理
+                    if model_name == 'areaofjob':
+                        '''机构领域表需要通过id过滤'''
+                        queryset = queryset.filter(id__in=aoj_list)
+                    elif model_name == 'modeltask':
+                        '''任务表'''
+                        queryset = queryset.filter(area_of_job_id__in=aoj_list)
+                    elif model_name in ['keywordbase', 'label']:
+                        '''特殊表特殊处理'''
+                        queryset = queryset.filter(
+                            Q(area_of_job_id__in=aoj_list) | Q(area_of_job__isnull=True))
+
+            return queryset
+    ```
+    * 将task_utils.py 文件的1173行 get_aojs_by_user方法改成一下
+    ```
+        @staticmethod
+        def get_aojs_by_user(user_id):
+            if not utils.Utils.is_super_user(user_id):
+                instance = UserProfile.objects.get(user_id=user_id)
+                aojs = ",".join([str(item.id)
+                                 for item in instance.areaOfJob.all()])
+            else:
+                aojs = ",".join([str(item.id) for item in AreaOfJob.objects.all()])
+            return aojs    
+    ```
+    * 将 es_utils.py文件中的第122行代码修改为一下
+    ```
+        if not utils.Utils.is_super_user(user_id):
+
+    ```
