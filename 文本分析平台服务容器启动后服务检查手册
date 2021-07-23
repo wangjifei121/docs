@@ -179,3 +179,5 @@ NLP服务container启动后需要检查服务是否正常
         if not utils.Utils.is_super_user(user_id):
 
     ```
+    - 检查标注任务标注界面查看文本是否异常
+       * 依赖javamysql数据库 将cenlp.sql加载到库中
