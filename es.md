@@ -7,8 +7,8 @@
 |行（rows）|documents |
 |字段（columns）|fields|
 
-#一、 ES简单的增删改查
-####1、创建一篇文档（有则修改，无则创建)
+# 一、 ES简单的增删改查
+#### 1、创建一篇文档（有则修改，无则创建)
 ```
 PUT test/doc/2
 {
@@ -32,17 +32,17 @@ PUT test/doc/3
 }
 ```
 
-####2、查询指定索引信息
+#### 2、查询指定索引信息
 ```
 GET test
 ```
 
-####3、 查询指定文档信息
+#### 3、 查询指定文档信息
 ```
 GET test/doc/1
 GET test/doc/2
 ```
-####4、查询对应索引下所有数据
+#### 4、查询对应索引下所有数据
 ```
 GET test/doc/_search
 或
@@ -54,17 +54,17 @@ GET test/doc/_search
 }
 ```
 
-####5、删除指定文档
+#### 5、删除指定文档
 ```
 DELETE test/doc/3
 ```
 
-####6、删除索引
+#### 6、删除索引
 ```
 DELETE test
 ```
 
-####7、修改指定文档方式
+#### 7、修改指定文档方式
 - 修改时，不指定的属性会自动覆盖，只保留指定的属性(不正确的修改指定文档方式)
 
 ```
@@ -84,13 +84,13 @@ POST test/doc/1/_update
   }
 }
 ```
-#二、ES查询的两种方式
-####1、查询字符串搜索
+# 二、ES查询的两种方式
+#### 1、查询字符串搜索
 ```
 GET test/doc/_search?q=name:wangfei
 ```
 
-####2、结构化查询(单字段查询,不能多字段组合查询)
+#### 2、结构化查询(单字段查询,不能多字段组合查询)
 ```
 GET test/doc/_search
 {
@@ -102,8 +102,8 @@ GET test/doc/_search
 }
 ```
 
-#三、match系列之操作
-####1、match系列之match_all (查询全部)
+# 三、match系列之操作
+#### 1、match系列之match_all (查询全部)
 ```
 GET test/doc/_search
 {
@@ -113,7 +113,7 @@ GET test/doc/_search
   }
 }
 ```
-####2、match系列之match_phrase（短语查询）
+#### 2、match系列之match_phrase（短语查询）
 ```
 准备数据
 
@@ -189,7 +189,7 @@ GET test1/doc/_search
 
 ```
 
-#####通过观察结果可以发现，虽然如期的返回了中国的文档。但是却把和美国的文档也返回了，这并不是我们想要的。是怎么回事呢？因为这是elasticsearch在内部对文档做分词的时候，对于中文来说，就是一个字一个字分的，所以，我们搜中国，中和国都符合条件，返回，而美国的国也符合。而我们认为中国是个短语，是一个有具体含义的词。所以elasticsearch在处理中文分词方面比较弱势。后面会讲针对中文的插件。但目前我们还有办法解决，那就是使用短语查询 用match_phrase
+##### 通过观察结果可以发现，虽然如期的返回了中国的文档。但是却把和美国的文档也返回了，这并不是我们想要的。是怎么回事呢？因为这是elasticsearch在内部对文档做分词的时候，对于中文来说，就是一个字一个字分的，所以，我们搜中国，中和国都符合条件，返回，而美国的国也符合。而我们认为中国是个短语，是一个有具体含义的词。所以elasticsearch在处理中文分词方面比较弱势。后面会讲针对中文的插件。但目前我们还有办法解决，那就是使用短语查询 用match_phrase
 
 ```
 GET test1/doc/_search
@@ -280,7 +280,7 @@ GET test1/doc/_search
 }
 ```
 
-####3、match系列之match_phrase_prefix（最左前缀查询）智能搜索--以什么开头
+#### 3、match系列之match_phrase_prefix（最左前缀查询）智能搜索--以什么开头
 
 ```
 数据准备
@@ -405,7 +405,7 @@ GET test2/doc/_search
 }
 ```
 
-####4、match系列之multi_match（多字段查询)  
+#### 4、match系列之multi_match（多字段查询)  
 - multi_match是要在多个字段中查询同一个关键字  除此之外，mulit_match甚至可以当做match_phrase和match_phrase_prefix使用，只需要指定type类型即可
 
 ```
@@ -572,7 +572,7 @@ GET test2/doc/_search
 
 
 
-#四、ES的排序查询 
+# 四、ES的排序查询 
 	注意：排序字段只能是数字和日期类型的字段，其他的都不行
 
 - name字段排序报错
@@ -723,7 +723,7 @@ GET test/doc/_search
 }
 ```
 
-#五、ES的分页查询 
+# 五、ES的分页查询 
 - from：从哪开始查  size：返回几条结果
 
 ```
@@ -767,7 +767,7 @@ GET test/doc/_search
   }
 }
 ```
-#六、ES的bool查询 (must、should)
+# 六、ES的bool查询 (must、should)
 
 - must (must字段对应的是个列表，也就是说可以有多个并列的查询条件，一个文档满足各个子条件后才最终返回)
 
@@ -1039,9 +1039,9 @@ GET test/doc/_search
 
 
 
-#七、ES之查询结果过滤
+# 七、ES之查询结果过滤
 ```
-####准备数据
+#### 准备数据
 
 PUT test3/doc/1
 {
@@ -1095,7 +1095,7 @@ GET test3/doc/_search
 }
 ```
 
-#八、ES之查询结果高亮显示 
+# 八、ES之查询结果高亮显示 
 - ES的默认高亮显示
 
 ```
@@ -1214,7 +1214,7 @@ GET test3/doc/_search
 
 ```
 
-#十、ES之精确查询与模糊查询
+# 十、ES之精确查询与模糊查询
 
 -  term查询查找包含文档精确的倒排索引指定的词条。也就是精确查找。
 
@@ -1404,7 +1404,7 @@ GET test/doc/_search
 ```
 
 
-#十一、ES的聚合查询avg、max、min、sum
+# 十一、ES的聚合查询avg、max、min、sum
 ```
 ####  数据准备
 
@@ -1537,7 +1537,7 @@ GET zhifou/doc/_search
 ```
 ###### 上例中，首先匹配查询from是gu的数据。在此基础上做查询平均值的操作，这里就用到了聚合函数，其语法被封装在aggs中，而my_avg则是为查询结果起个别名，封装了计算出的平均值。那么，要以什么属性作为条件呢？是age年龄，查年龄的什么呢？是avg，查平均年龄。
 
-#####如果只想看输出的值，而不关心输出的文档的话可以通过size=0来控制
+##### 如果只想看输出的值，而不关心输出的文档的话可以通过size=0来控制
 ```
 GET zhifou/doc/_search
 {
@@ -1707,7 +1707,7 @@ GET zhifou/doc/_search
 ```
 
 
-#十二、ES的分组查询 
+# 十二、ES的分组查询 
 
 - 需求： 要查询所有人的年龄段，并且按照15~20，20~25,25~30分组，并且算出每组的平均年龄。
 
@@ -1886,7 +1886,7 @@ GET zhifou/doc/_search
 
 
 
-#十三、ES之Mappings
+# 十三、ES之Mappings
 ```
 GET test
 
@@ -1943,11 +1943,11 @@ GET test
 	
 	另一部分是关于索引t1的settings设置。包括该索引的创建时间，主副分片的信息，UUID等等。
 
-####1. mappings 是什么？   
+#### 1. mappings 是什么？   
 	映射就是在创建索引的时候，有更多定制的内容，更加的贴合业务场景。
 	用来定义一个文档及其包含的字段如何存储和索引的过程。
 
-####2. 字段的数据类型  
+#### 2. 字段的数据类型  
 	简单类型如文本（text）、关键字（keyword）、日期（data）、整形（long）、双精度
 	（double）、布尔（boolean）或ip。 可以是支持JSON的层次结构性质的类型，如对象或嵌套。
 	或者一种特殊类型，如geo_point、geo_shape或completion。为了不同的目的，
@@ -2009,7 +2009,7 @@ GET mapping_test
 
 
 
-####3. ES mappings之dynamic的三种状态
+#### 3. ES mappings之dynamic的三种状态
 - 一般的，mapping则又可以分为动态映射（dynamic mapping）和静态（显示）映射（explicit mapping）和精确（严格）映射（strict mappings），具体由dynamic属性控制。默认为动态映射
 
 ```
@@ -2248,7 +2248,7 @@ PUT test6/doc/1
 >小结：  动态映射（dynamic：true）：动态添加新的字段（或缺省）。 静态映射（dynamic：false）：忽略新的字段。在原有的映射基础上，当有新的字段时，不会主动的添加新的映射关系，只作为查询结果出现在查询中。        严格模式（dynamic：strict）：如果遇到新的字段，就抛出异常。一般静态映射用的较多。就像HTML的img标签一样，src为自带的属性，你可以在需要的时候添加id或者class属性。当然，如果你非常非常了解你的数据，并且未来很长一段时间不会改变，strict不失为一个好选择。
 
 
-####4. ES之mappings的 index 属性
+#### 4. ES之mappings的 index 属性
 - index属性默认为true，如果该属性设置为false，那么，elasticsearch不会为该属性创建索引，也就是说无法当做主查询条件。
 
 ```
@@ -2363,7 +2363,7 @@ GET test7/doc/_search
 ```
 
 
-####5. ES 之 mappings 的copy_to属性
+#### 5. ES 之 mappings 的copy_to属性
 ```
 PUT test8
 {
@@ -2729,7 +2729,7 @@ GET test9/doc/_search
 ```
 ###### full_name1 full_name2两个字段都可以查出来
 
-####6. ES 之mappings的对象属性
+#### 6. ES 之mappings的对象属性
 - 首先先看看ES自动创建的mappings
 
 ```
@@ -2851,7 +2851,7 @@ GET test10/doc/_search
 ```
 ###### info既是一个属性，也是一个对象，我们称为info这类字段为对象型字段。该对象内又包含addr和tel两个字段，如上例这种以嵌套内的字段为查询条件的话，查询语句可以以字段点子字段的方式来写即可
 
-####7. ES之mappings的settings 设置
+#### 7. ES之mappings的settings 设置
 - 在创建一个索引的时候，我们可以在settings中指定分片信息：
 
 ```
@@ -2874,7 +2874,7 @@ PUT test11
 ```
 ###### number_of_shards是主分片数量（每个索引默认5个主分片），而number_of_replicas是复制分片，默认一个主分片搭配一个复制分片。
 
-####8. ES 之mappings的ignore_above参数
+#### 8. ES 之mappings的ignore_above参数
 - ignore_above参数仅针对于keyword类型有用
 
 ```
@@ -2996,7 +2996,7 @@ GET test12/doc/_search
   }
 }
 ```
-######上面的例子证明超过ignore_above设定的值后会被存储但不会建立索引
+###### 上面的例子证明超过ignore_above设定的值后会被存储但不会建立索引
 
 - 那么如果字符串的类型是text时能用ignore_above吗，答案是能，但要特殊设置：
 
