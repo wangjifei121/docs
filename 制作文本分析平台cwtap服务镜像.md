@@ -1,4 +1,8 @@
-** 注：NLP服务拆分为master、elk、mysql、bert、redis，以下是master image的创建方式，其他image是通用的，非特殊情况下不需要重新构建 **
+```
+@author wangjifei@cewell.com.cn
+@date 2021-07-02
+
+**注：NLP服务拆分为master、elk、mysql、bert、redis，以下是master image的创建方式，其他image是通用的，非特殊情况下不需要重新构建 **
 1、拉取svn最新CWTAP到 /mnt/mfs/version_management/nlp_xxx/dockerfiles/master
 2、检查CWTAP配置
    settings.py
