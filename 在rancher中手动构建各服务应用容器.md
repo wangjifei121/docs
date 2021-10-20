@@ -1,6 +1,8 @@
   ### 在rancher应用界面点击添加服务按钮，依次创建以下服务
-  ```
-    - mysql
+
+- mysql
+```
+
 	- 名称：mysql
 	- 描述：xxx
 	- 选择镜像：baseimage/mysql_generic:5.7  (去掉创建前总是拉取镜像)
@@ -12,9 +14,9 @@
 		- 主机名：设置主机名  mysql
 	- 安全/主机
 		- 特权：主机安全访问特权(勾上)
-						
-					
-    - redis
+```
+- redis
+```
 	- 名称：redis
 	- 描述：xxx
 	- 选择镜像：baseimage/redis_generic:2.8.13  (去掉创建前总是拉取镜像)
@@ -26,8 +28,9 @@
 		- 主机名：设置主机名  redis
 	安全/主机
 		- 特权：主机安全访问特权(勾上)
-
-    - es
+```
+- es
+```
 	- 名称：es
 	- 描述：xxx
 	- 选择镜像：baseimage/elk_generic:6.5.4  (去掉创建前总是拉取镜像)
@@ -39,8 +42,9 @@
 		- 主机名：设置主机名  es
 	安全/主机
 		- 特权：主机安全访问特权(勾上)
-
-    - bert
+```
+- bert
+```
 	- 名称：bert
 	- 描述：xxx
 	- 选择镜像：baseimage/bert_generic:1.9.6  (去掉创建前总是拉取镜像)
@@ -52,8 +56,9 @@
 		- 主机名：设置主机名  bert
 	安全/主机
 		- 特权：主机安全访问特权(勾上)
-
-    - master
+```
+- master
+```
 	- 名称：master
 	- 描述：xxx
 	- 选择镜像：baseimage/cwtap:1.9.0  (去掉创建前总是拉取镜像)
