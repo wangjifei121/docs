@@ -1,11 +1,11 @@
 ### 20210618
-  问题现象：java算法接口报500 词性分析、内容摘要、关键词提取
-  问题原因：新环境部署，hanlp缺少依赖的目录文件 java项目启动时报--/opt/hanlp_datas/data/dictionary/相关的错误
-  解决办法：将hanlp_datas文件拷贝到/opt/目录下
+  1. 问题现象：java算法接口报500 词性分析、内容摘要、关键词提取
+  2. 问题原因：新环境部署，hanlp缺少依赖的目录文件 java项目启动时报--/opt/hanlp_datas/data/dictionary/相关的错误
+  3. 解决办法：将hanlp_datas文件拷贝到/opt/目录下
 ### 20210630
-  问题现象：24:18000测试环境服务启动失败，不能正常访问
-  问题原因：master服务无法通过主机名mysql、redis、es连接到对应服务
-  解决办法：将mysql、redis、es服务的ip和主机名的对应关系配置添加到 /etc/hosts文件中
+  1. 问题现象：24:18000测试环境服务启动失败，不能正常访问
+  2. 问题原因：master服务无法通过主机名mysql、redis、es连接到对应服务
+  3. 解决办法：将mysql、redis、es服务的ip和主机名的对应关系配置添加到 /etc/hosts文件中
 ```
           10.42.98.208 master
           10.42.50.135 es
