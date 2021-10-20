@@ -1,7 +1,7 @@
 ### 一、安装工具elasticdump
 
 ```  
-- 先安装node、npm
+-  先安装node、npm
       $ wget https://nodejs.org/dist/v10.15.0/node-v10.15.0-linux-x64.tar.xz
       $ tar -xf node-v10.15.0-linux-x64.tar.xz
 -  配置相关的环境变量
