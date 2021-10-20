@@ -4,7 +4,7 @@
 @date 2021-07-14
 ```
 
-
+```
 直接使用已编译好的包
 Node 官网已经把 linux 下载版本更改为已编译好的版本了，我们可以直接下载解压后使用：
 # cd /usr/local/
@@ -18,3 +18,4 @@ v12.19.0
 
 ln -s /usr/local/node-v12.19.0-linux-x64/bin/npm   /usr/bin/ 
 ln -s /usr/local/node-v12.19.0-linux-x64/bin/node   /usr/bin/
+```
