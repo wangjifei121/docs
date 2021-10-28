@@ -241,7 +241,10 @@ baseimage/mysql                 5.7                 d675b4039743        16 month
 CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                              NAMES
 
 # 运行rancher镜像，物理机上执行下面命令即可
-[root@rancher-server ~]#  docker run -d --restart=unless-stopped -p 6060:8080 rancher/server:stable
+[root@as01 ~]# docker run -d --restart=unless-stopped -p 6060:8080 rancher/server:stable
+88462c34d4c9896082838f57c8f91dee84acc59ad3c25302b1ad3758734ae362
+[root@as01 ~]# 
+
 # 再次检查
 [root@rancher-server ~]#  docker ps
 CONTAINER ID        IMAGE                             COMMAND                  CREATED             STATUS              PORTS                              NAMES
