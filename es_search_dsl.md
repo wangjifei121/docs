@@ -1,18 +1,3 @@
-### 指定字段值累加1
-```
-POST industry_knowledge/doc/_update_by_query
-{
-    "query": {
-        "match": {
-            "_id": "sEUpL3sBNqQYC4otj5gY"
-        }
-    },
-    "script": {
-        "lang": "painless",
-        "inline": "if (ctx._source.like == null) {ctx._source.like = 0} ctx._source.like +=1"
-    }
-}
-```
 ### 分词测试
 ```
 GET industry_knowledge/_analyze
@@ -28,6 +13,22 @@ GET industry_knowledge/_analyze
 {
   "field": "name", 
   "text": ["我想订张机票"]
+}
+```
+
+### 指定字段值累加1
+```
+POST industry_knowledge/doc/_update_by_query
+{
+    "query": {
+        "match": {
+            "_id": "sEUpL3sBNqQYC4otj5gY"
+        }
+    },
+    "script": {
+        "lang": "painless",
+        "inline": "if (ctx._source.like == null) {ctx._source.like = 0} ctx._source.like +=1"
+    }
 }
 ```
 ### 高亮查询
@@ -283,3 +284,4 @@ POST industry_graph/doc/_update_by_query
   }
 }
 ```
+
