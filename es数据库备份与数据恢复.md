@@ -10,8 +10,7 @@
       $ source /etc/profile
 -  或者添加软连接
       ln -s /usr/local/node-v12.19.0-linux-x64.tar/bin/npm   /usr/bin/ 
-      rm -rf /usr/bin/npm 
-
+      
 - 通过npm安装elasticdump
       # 全局安装
       $ npm install elasticdump -g
