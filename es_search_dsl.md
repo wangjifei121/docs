@@ -284,4 +284,12 @@ POST industry_graph/doc/_update_by_query
   }
 }
 ```
-
+### 指定ID修改字段值
+```
+POST industry_graph_task_report/doc/Xfh0-n0B5AdzH4DLFQNI/_update
+{
+  "doc":{
+    "latest_news":"生命安顺康伴意外伤害保险"
+  }
+}
+```
