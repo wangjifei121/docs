@@ -159,15 +159,33 @@ RUN ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx \
 ```
 - 在 `/mnt/mfs/version_management/nlp_2.0.0/dockerfiles/master` 目录下 执行docker命令 `docker build -t baseimage/cwtap:2.0 .` 构建CWTAP2.0版本项目镜像
 ```
+[root@rancher-server master]# 
+[root@rancher-server master]# docker build -t baseimage/cwtap:2.0 .
+Sending build context to Docker daemon  11.09GB
+Step 1/6 : FROM baseimage:2.0
+ ---> 0a13230215a3
+Step 2/6 : MAINTAINER by wangjifei wangjifei@cewell.com.cn
+ ---> Using cache
+ ---> c7b44c3f719b
+Step 3/6 : COPY start.sh /opt
+ ---> Using cache
+ ---> 759320148a4a
+Step 4/6 : ADD *.tar /opt/
+[......]
+Removing intermediate container 845047be9f62
+ ---> 816831c315b9
+Successfully built 816831c315b9
+Successfully tagged baseimage/cwtap:2.0
 
 ```
 - 构建完成 `docker images |grep baseimage/cwtap` 查看已经构建好的镜像
 ```
-[root@rancher-server baseimage]# 
-[root@rancher-server baseimage]# docker images |grep baseimage/cwtap
-baseimage                       2.0                 0a13230215a3        9 hours ago         1.84GB
-[......]
-[root@rancher-server baseimage]# 
+[root@rancher-server master]# 
+[root@rancher-server master]# docker images |grep baseimage/cwtap
+baseimage/cwtap                 2.0                 816831c315b9        35 seconds ago      23GB
+baseimage/cwtap                 1.9.1               7e802c224493        2 months ago        47.8GB
+baseimage/cwtap                 1.9.0.20210721      5a6c7996c283        5 months ago        36.7GB
+[root@rancher-server master]# 
 
 ```
 
