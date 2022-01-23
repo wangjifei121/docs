@@ -51,10 +51,15 @@ server.3=192.168.123.102:2888:3888
   - 创建持久顺序节点 `create -s /test data`
   - 创建临时节点 `create -e /test data`
   - 创建临时顺序节点 `create -e -s /test data`
+  - 创建容器节点 `create -c /test`
   - 修改节点 `set /test newdata`
   - 删除指定节点 `delete /test`
+  - 指定节点版本删除（乐观锁删除） `delete -v version /test`
   - 递归删除指定节点集 `deleteall /test`
-   
+- 权限设置
+  - 注册当前会话的账号和密码 `addauth digest xiaowang:123456`
+  - 创建节点并设置权限 `create /test abcd auth:xiaowang:123456:cdwra`
+  - 在另一个会话中必须先使用账号密码，才能拥有操作该节点的权限
 ## Zookeeper内部的数据模型
 #### 1.zk是如何保存数据的
 
@@ -105,7 +110,6 @@ dataLength = 0
 numChildren = 0
 [zk: localhost:2181(CONNECTED) 14] 
 ```
-	
 #### 3.zk中节点的类型
 - 持久节点（PERSISTENT）
   所谓持久节点，是指在节点创建后，就一直存在，直到有删除操作来主动清除这个节点——不会因为创建该节点的客户端会话失效而消失。
@@ -115,3 +119,17 @@ numChildren = 0
   和持久节点不同的是，临时节点的生命周期和客户端会话绑定。也就是说，如果客户端会话失效，那么这个节点就会自动被清除掉。注意，这里提到的是会话失效，而非连接断开。另外，在临时节点下面不能创建子节点。
 - 临时顺序节点（EPHEMERAL_SEQUENTIAL）
   临时节点的生命周期和客户端会话绑定。也就是说，如果客户端会话失效，那么这个节点就会自动被清除掉。注意创建的节点会自动加上编号
+  
+<img width="930" alt="屏幕快照 2022-01-23 下午9 33 48" src="https://user-images.githubusercontent.com/40445471/150681033-402ede63-635d-40fa-8a76-d9da75e5adbc.png">
+- container节点
+   容器节点是 3.5 以后新增的节点类型，只要在调用 create 方法时指定 CreateMode 为 CONTAINER 即可创建容器的节点类型，容器节点的表现形式和持久节点是一样的，但是区别是 ZK 服务端启动后，会有一个单独的线程去扫描，所有的容器节点，当发现容器节点的子节点数量为 0 时，会自动删除该节点（60s），除此之外和持久节点没有区别，官方注释给出的使用场景是 Container nodes are special purpose nodes useful for recipes such as leader, lock, etc. 说可以用在 leader 或者锁的场景中。
+- 持久 TTL、持久顺序 TTL
+    关于持久和顺序这两个关键字，不用我再解释了，这两种类型的节点重点是后面的 TTL，TTL 是 time to live 的缩写，指带有存活时间，简单来说就是当该节点下面没有子节点的话，超过了 TTL 指定时间后就会被自动删除，特性跟上面的容器节点很像，只是容器节点没有超时时间而已，但是 TTL 启用是需要额外的配置(这个之前也有提过)配置是 zookeeper.extendedTypesEnabled 需要配置成 true，否则的话创建 TTL 时会收到 Unimplemented 的报错。
+
+#### 4.zk的数据持久化
+zk的数据是运行在内存中的，zk提供了两种持久化机制
+- 事务日志
+   zk把执行的命令以日志形式保存在dataLogDir指定的路径中的文件中（如果没有指定dataLogDir，则按dataDir指定的路径）
+- 数据快照
+   zk会在一定的时间间隔内做一次内存数据的快照，把该时刻的内存数据保存在快照文件中
+zk通过两种形式的持久化，在恢复时先恢复快照文件中的数据到内存中，再用日志文件中的数据做增量恢复，这样恢复效率更高
