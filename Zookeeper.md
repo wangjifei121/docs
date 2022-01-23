@@ -48,8 +48,13 @@ server.3=192.168.123.102:2888:3888
   - 查看根节点 `ls /`
   - 递归查看根节点 `ls -R /`
   - 创建普通持久节点 `create /test data`
+  - 创建持久顺序节点 `create -s /test data`
   - 创建临时节点 `create -e /test data`
-
+  - 创建临时顺序节点 `create -e -s /test data`
+  - 修改节点 `set /test newdata`
+  - 删除指定节点 `delete /test`
+  - 递归删除指定节点集 `deleteall /test`
+   
 ## Zookeeper内部的数据模型
 #### 1.zk是如何保存数据的
 
@@ -69,6 +74,21 @@ server.3=192.168.123.102:2888:3888
   - stat：描述当前znode的元数据
   - child：当前节点的字节点
 - 可通过 `get -s /test`查看节点详细信息
+
+|  属性   | 属性介绍  |
+|  ----  | ----  |
+| cZxid  | 创建节点时的事务id |
+| ctime  | 创建节点的时间 |
+| mZxid  |	修改节点时的事务id, 与子节点无关 |
+| mtime  | 修改节点的时间 |
+| pZxid  | 创建或删除子节点时的事务id，与孙子节点无关 |
+| cversion | 创建或删除子节点时的版本号，操作一次加1 |
+| dataVersion | 本节点的版本号：更新数据时会增长 |
+| aclVersion | 权限版本号，修改权限时，加1 |
+| ephemeralOwner | 与临时节点绑定的sessionId， 如果不是临时节点，数值为0 |
+| dataLength | 本节点的数据长度 |
+| numChildren | 本节点的子节点个数，与孙子节点无关 |
+
 ```
 [zk: localhost:2181(CONNECTED) 13] get -s /test 
 null
@@ -85,6 +105,7 @@ dataLength = 0
 numChildren = 0
 [zk: localhost:2181(CONNECTED) 14] 
 ```
+	
 #### 3.zk中节点的类型
 - 持久节点（PERSISTENT）
   所谓持久节点，是指在节点创建后，就一直存在，直到有删除操作来主动清除这个节点——不会因为创建该节点的客户端会话失效而消失。
