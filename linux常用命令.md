@@ -90,3 +90,5 @@ poweroff 命令命令用于关闭计算器并切断电源。
   关闭系统
   # poweroff
 ```
+### 循环加载docker镜像
+`for i in `ls *tar.gz`; do docker load < $i; done`
