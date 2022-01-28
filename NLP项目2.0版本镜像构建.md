@@ -188,16 +188,5 @@ baseimage/cwtap                 1.9.0.20210721      5a6c7996c283        5 months
 [root@rancher-server master]# 
 
 ```
-
-
-
-
-
-
-
-
-
-
-
-
-
+- 保存docker image 到本地磁盘： `docker save -o baseimage_cwtap.v2.0.0.tar.gz baseimage/cwtap:2.0.0`
+- 加载docker image `docker load -i baseimage/cwtap.v2.0.0.tar.gz`
