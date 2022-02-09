@@ -293,3 +293,19 @@ POST industry_graph_task_report/doc/Xfh0-n0B5AdzH4DLFQNI/_update
   }
 }
 ```
+
+### es字符串替换示例
+```
+POST industry_knowledge/doc/_update_by_query
+{
+  "query": {
+    "match": {
+      "path":"1-2"
+    }
+  },
+  "script": {
+    "source": """ctx._source.intent=ctx._source.intent.replace('60','80')""",
+    "lang": "painless"
+  }
+}
+```
