@@ -99,3 +99,5 @@ for i in `ls *tar.gz`; do docker load < $i; done
 ```
 :g/text/d
 ```
+### 借助awk进行对日志统计操作
+`cat $1|grep 'cwtapMiddleware 本次请求响应时间'|cut -c 56-72|awk '{sum+=$1} END {print "total request = " NR; print "request average = " sum/NR}'`
