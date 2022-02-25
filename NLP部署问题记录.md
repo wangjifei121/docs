@@ -12,3 +12,8 @@
           10.42.20.175 mysql
           10.42.34.53 redis
 ```
+### 富徳项目出现es index被锁住的问题
+  - 报错信息：`AuthorizationException: AuthorizationException(403, u'cluster_block_exception', u'blocked by: [FORBIDDEN/12/index read-only / allow delete (api)];')`
+  - 问题原因: 当Elasticsearch所在磁盘占用大于等于95%时，Elasticsearch会把所有相关索引自动置为只读。
+  - 问题分析: `curl -GET 'localhost:9200/index_name/_settings?pretty'`
+  - 解决方案：解决磁盘满的问题后手动修改被锁的index  `curl -XPUT 'localhost:9200/index_name/_settings'  -H 'Content-Type: application/json' -d '{"index.blocks.read_only_allow_delete": null}'`
