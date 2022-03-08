@@ -27,7 +27,7 @@ POST industry_knowledge/doc/_update_by_query
     },
     "script": {
         "lang": "painless",
-        "inline": "if (ctx._source.like == null) {ctx._source.like = 0} ctx._source.like +=1"
+        "source": "if (ctx._source.like == null) {ctx._source.like = 0} ctx._source.like +=1"
     }
 }
 ```
