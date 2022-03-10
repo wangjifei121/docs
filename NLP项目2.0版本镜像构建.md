@@ -144,11 +144,12 @@ ADD *.tar /opt/
 
 # 编译安装nginx # pip install packages # 更新python hanlp依赖包 
 RUN mkdir -p /usr/local/nginx && cd /opt/nginx-1.14.0 && ./configure --prefix=/usr/local/nginx && make && make install \
-	&& yum install -y gcc gcc-c++ libffi-devel python-devel openssl-devel && source ~/.venvs/cwtap/bin/activate && \
-	pip install setuptools==57.5.0 --no-index -f /opt/nlp_packages/ && pip install -r /opt/CWTAP/requirements.txt --no-index -f /opt/nlp_packages/ && \
-	pip install Keras==2.4.1 --no-index -f /opt/nlp_packages/ &&  pip list | grep -E 'bert4keras|Keras' && rm -rf /opt/nlp_packages \
-	&& mv /opt/python_hanlp_data/* ~/.venvs/cwtap/lib/python3.6/site-packages/pyhanlp/static/ && rm -rf /opt/python_hanlp_data \
-	&& mv /opt/.hanlp ~/
+        && yum install -y gcc gcc-c++ libffi-devel python-devel openssl-devel && source ~/.venvs/cwtap/bin/activate && \
+        pip install setuptools==57.5.0 --no-index -f /opt/nlp_packages/ && pip install -r /opt/CWTAP/requirements.txt --no-index -f /opt/nlp_packages/ && \
+        pip install Keras==2.4.1 --no-index -f /opt/nlp_packages/ &&  pip list | grep -E 'bert4keras|Keras' && rm -rf /opt/nlp_packages \
+        && mv /opt/python_hanlp_data/* ~/.venvs/cwtap/lib/python3.6/site-packages/pyhanlp/static/ && rm -rf /opt/python_hanlp_data \
+        && echo "java_HandlerUtils = SafeJClass('cn.com.centrin.complier.handlers.HandlerUtils')" >>  ~/.venvs/cwtap/lib/python3.6/site-packages/pyhanlp/__init__.py \
+        && mv /opt/.hanlp ~/
 
 # make some useful symlinks that are expected to exist
 RUN ln -s /usr/local/nginx/sbin/nginx /usr/bin/nginx \
