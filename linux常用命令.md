@@ -99,9 +99,12 @@ for i in `ls *tar.gz`; do docker load < $i; done
 ```
 :g/text/d
 ```
-### 借助awk进行对日志统计操作
+### 借助awk进行对日志统计操作 
 `cat $1|grep 'cwtapMiddleware 本次请求响应时间'|cut -c 56-72|awk '{sum+=$1} END {print "total request = " NR; print "request average = " sum/NR}'`
-### 查看内存消耗前3的进程
+### 查看内存消耗前3的进程 
  - `ps aux|head -1;ps auxw|sort -rn -k4|head -3`
  - `ps aux|head -1` - 获取表头
  - `ps auxw|sort -rn -k4|head -3` 获取内存使用前3的信息 其中 r:倒序 n:按数字排序 k:按照那一列数据进行排序
+
+### docker运行命令报编码错误
+`sudo localedef -i en_US -f UTF-8 en_US.UTF-8`
