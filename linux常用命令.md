@@ -108,3 +108,5 @@ for i in `ls *tar.gz`; do docker load < $i; done
 
 ### docker运行命令报编码错误
 `sudo localedef -i en_US -f UTF-8 en_US.UTF-8`
+### linux批量安装开发工具命令
+`yum groupinstall 'Development Tools'`
