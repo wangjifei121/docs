@@ -71,7 +71,7 @@
       Successfully tagged baseimage/cwtap:1.9.0
 ```
 - 保存docker image 到本地磁盘：
-      docker save -o baseimage_cwtap.v1.9.0.tar.gz baseimage/cwtap:1.9.0
+      `docker save -o baseimage_cwtap.v1.9.0.tar.gz baseimage/cwtap:1.9.0`
 - 加载docker image
-      docker load -i baseimage_cwtap.v1.9.0.tar.gz
+      `docker load -i baseimage_cwtap.v1.9.0.tar.gz`
 - 本次镜像中的源代码包中sbin目录下遗漏的init_ip.sh脚本
