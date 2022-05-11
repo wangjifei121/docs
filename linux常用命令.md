@@ -113,3 +113,8 @@ for i in `ls *tar.gz`; do docker load < $i; done
 
 ### pip安装组件报错忽略
 `cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE" -i http://pypi.doubanio.com/simple --trusted-host pypi.doubanio.com; done`
+### pip卸载本地所有包
+```
+pip freeze>modules.txt
+pip uninstall -r modules.txt -y
+```
