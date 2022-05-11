@@ -110,3 +110,6 @@ for i in `ls *tar.gz`; do docker load < $i; done
 `sudo localedef -i en_US -f UTF-8 en_US.UTF-8`
 ### linux批量安装开发工具命令
 `yum groupinstall 'Development Tools'`
+
+### pip安装组件报错忽略
+`cat requirements.txt | while read PACKAGE; do pip install "$PACKAGE" -i http://pypi.doubanio.com/simple --trusted-host pypi.doubanio.com; done`
