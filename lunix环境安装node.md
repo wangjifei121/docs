@@ -1,8 +1,9 @@
-## Linux 上安装 Node.js
 ```
 @author wangjifei@cewell.com.cn
 @date 2021-07-14
 ```
+
+## Linux 上安装 Node.js
 
 ```
 直接使用已编译好的包
@@ -18,4 +19,29 @@ v12.19.0
 
 ln -s /usr/local/node-v12.19.0-linux-x64/bin/npm   /usr/bin/ 
 ln -s /usr/local/node-v12.19.0-linux-x64/bin/node   /usr/bin/
+```
+
+## python后台执行js及通过XMLHttpRequest发送请求
+- 下载第三方包PyExecJS
+```
+pip install PyExecJS
+```
+- 在python执行文件所在的运行目录下，使用npm安装jsdom
+```
+npm install jsdom
+```
+- JS文件开头添上下述固定代码
+```
+//解决TextEncoder is not defined
+const textencoding = require('text-encoding');
+TextEncoder = textencoding.TextEncoder;
+TextDecoder = textencoding.TextDecoder;
+
+//解决浏览器环境问题
+const jsdom = require("jsdom");
+const {JSDOM} = jsdom;
+const dom = new JSDOM('<!DOCTYPE html><p>Hello world</p>');
+window = dom.window;
+document = window.document;
+XMLHttpRequest = window.XMLHttpRequest;
 ```
