@@ -3,3 +3,7 @@
 ```
 cat $1|grep 'cwtapMiddleware 本次请求响应时间'|cut -c 56-72|awk '{sum+=$1} END {print "total request = " NR; print "request average = " sum/NR}'
 ```
+### shell命令统计文件夹中的python代码行数
+```
+find ./chatbot -name '*.py'| xargs cat |grep -v ^$|wc -l
+```
