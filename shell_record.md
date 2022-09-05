@@ -7,3 +7,7 @@ cat $1|grep 'cwtapMiddleware 本次请求响应时间'|cut -c 56-72|awk '{sum+=$
 ```
 find ./chatbot -name '*.py'| xargs cat |grep -v ^$|wc -l
 ```
+### 指定文件最后修改时间删除
+```
+for filename in *; do if [ `date -r $filename +%H%M` == "1622" ];then rm -f $filename; fi done
+```
