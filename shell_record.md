@@ -11,3 +11,7 @@ find ./chatbot -name '*.py'| xargs cat |grep -v ^$|wc -l
 ```
 for filename in *; do if [ `date -r $filename +%H%M` == "1622" ];then rm -f $filename; fi done
 ```
+### 单独安装
+```
+cat app/requirements.txt | xargs -n 1 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple/
+```
